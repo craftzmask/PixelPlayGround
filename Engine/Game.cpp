@@ -1,22 +1,22 @@
 /****************************************************************************************** 
- *	Chili DirectX Framework Version 16.07.20											  *	
+ *	Chili Directx_mobile Framework Version 16.07.20											  *	
  *	Game.cpp																			  *
  *	Copyright 2016 PlanetChili.net <http://www.planetchili.net>							  *
  *																						  *
- *	This file is part of The Chili DirectX Framework.									  *
+ *	This file is part of The Chili Directx_mobile Framework.									  *
  *																						  *
- *	The Chili DirectX Framework is free software: you can redistribute it and/or modify	  *
+ *	The Chili Directx_mobile Framework is free software: you can redistribute it and/or modify	  *
  *	it under the terms of the GNU General Public License as published by				  *
  *	the Free Software Foundation, either version 3 of the License, or					  *
- *	(at your option) any later version.													  *
+ *	(at your option) any_mobile later version.													  *
  *																						  *
- *	The Chili DirectX Framework is distributed in the hope that it will be useful,		  *
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of						  *
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the						  *
+ *	The Chili Directx_mobile Framework is distributed in the hope that it will be useful,		  *
+ *	but WITHOUT ANy_mobile WARRANTY; without even the implied warranty_mobile of						  *
+ *	MERCHANTABILITy_mobile or FITNESS FOR A PARTICULAR PURPOSE.  See the						  *
  *	GNU General Public License for more details.										  *
  *																						  *
- *	You should have received a copy of the GNU General Public License					  *
- *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
+ *	You should have received a copy_mobile of the GNU General Public License					  *
+ *	along with The Chili Directx_mobile Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
@@ -40,85 +40,96 @@ void Game::UpdateModel()
 {
 	if (wnd.kbd.KeyIsPressed(VK_UP))
 	{
-		vy = vy - 1;
+		y_mobile = y_mobile - 3;
 	}
+	
 	if (wnd.kbd.KeyIsPressed(VK_DOWN))
 	{
-		vy = vy + 1;
+		y_mobile = y_mobile + 3;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_LEFT))
 	{
-		vx = vx - 1;
+		x_mobile = x_mobile - 3;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
 	{
-		vx = vx + 1;
+		x_mobile = x_mobile + 3;
 	}
 
-	x = x + vx;
-	y = y + vy;
+	const int left_fixed = x_fixed - 5;
+	const int right_fixed = x_fixed + 5;
+	const int top_fixed = y_fixed - 5;
+	const int bottom_fixed = y_fixed + 5;
 
-	if (wnd.kbd.KeyIsPressed(VK_CONTROL))
-	{
-		gb = 0;
-	}
-	else
-	{
-		gb = 255;
-	}
-	shapeIsChanged = wnd.kbd.KeyIsPressed(VK_SHIFT);
+	const int left_mobile = x_mobile - 5;
+	const int right_mobile = x_mobile + 5;
+	const int top_mobile = y_mobile - 5;
+	const int bottom_mobile = y_mobile + 5;
+
+	colliding =
+		left_mobile <= right_fixed &&
+		right_mobile >= left_fixed &&
+		top_mobile <= bottom_fixed && 
+		bottom_mobile >= top_fixed;
 }
 
 void Game::ComposeFrame()
 {
-	if (shapeIsChanged)
+	// static box
+	gfx.PutPixel(x_fixed - 5, y_fixed - 5, 255, 255, 255);
+	gfx.PutPixel(x_fixed - 5, y_fixed - 4, 255, 255, 255);
+	gfx.PutPixel(x_fixed - 5, y_fixed - 3, 255, 255, 255);
+	gfx.PutPixel(x_fixed - 4, y_fixed - 5, 255, 255, 255);
+	gfx.PutPixel(x_fixed - 3, y_fixed - 5, 255, 255, 255);				
+	gfx.PutPixel(x_fixed + 5, y_fixed - 5, 255, 255, 255);
+	gfx.PutPixel(x_fixed + 5, y_fixed - 4, 255, 255, 255);
+	gfx.PutPixel(x_fixed + 5, y_fixed - 3, 255, 255, 255);
+	gfx.PutPixel(x_fixed + 4, y_fixed - 5, 255, 255, 255);
+	gfx.PutPixel(x_fixed + 3, y_fixed - 5, 255, 255, 255);
+	gfx.PutPixel(x_fixed - 5, y_fixed + 5, 255, 255, 255);
+	gfx.PutPixel(x_fixed - 5, y_fixed + 4, 255, 255, 255);
+	gfx.PutPixel(x_fixed - 5, y_fixed + 3, 255, 255, 255);
+	gfx.PutPixel(x_fixed - 4, y_fixed + 5, 255, 255, 255);
+	gfx.PutPixel(x_fixed - 3, y_fixed + 5, 255, 255, 255);
+	gfx.PutPixel(x_fixed + 5, y_fixed + 5, 255, 255, 255);
+	gfx.PutPixel(x_fixed + 5, y_fixed + 4, 255, 255, 255);
+	gfx.PutPixel(x_fixed + 5, y_fixed + 3, 255, 255, 255);
+	gfx.PutPixel(x_fixed + 4, y_fixed + 5, 255, 255, 255);
+	gfx.PutPixel(x_fixed + 3, y_fixed + 5, 255, 255, 255);
+
+	int r_mobile, g_mobile, b_mobile;
+	if (colliding)
 	{
-		// top left
-		gfx.PutPixel(x - 5, y - 5, 255, gb, gb);
-		gfx.PutPixel(x - 5, y - 4, 255, gb, gb);
-		gfx.PutPixel(x - 5, y - 3, 255, gb, gb);
-		gfx.PutPixel(x - 4, y - 5, 255, gb, gb);
-		gfx.PutPixel(x - 3, y - 5, 255, gb, gb);
-
-		// top right
-		gfx.PutPixel(x + 5, y - 5, 255, gb, gb);
-		gfx.PutPixel(x + 5, y - 4, 255, gb, gb);
-		gfx.PutPixel(x + 5, y - 3, 255, gb, gb);
-		gfx.PutPixel(x + 4, y - 5, 255, gb, gb);
-		gfx.PutPixel(x + 3, y - 5, 255, gb, gb);
-
-		// bottom left
-		gfx.PutPixel(x - 5, y + 5, 255, gb, gb);
-		gfx.PutPixel(x - 5, y + 4, 255, gb, gb);
-		gfx.PutPixel(x - 5, y + 3, 255, gb, gb);
-		gfx.PutPixel(x - 4, y + 5, 255, gb, gb);
-		gfx.PutPixel(x - 3, y + 5, 255, gb, gb);
-	
-		// bottom right
-		gfx.PutPixel(x + 5, y + 5, 255, gb, gb);
-		gfx.PutPixel(x + 5, y + 4, 255, gb, gb);
-		gfx.PutPixel(x + 5, y + 3, 255, gb, gb);
-		gfx.PutPixel(x + 4, y + 5, 255, gb, gb);
-		gfx.PutPixel(x + 3, y + 5, 255, gb, gb);
+		r_mobile = 255;
+		g_mobile = 0;
 	}
 	else
 	{
-		gfx.PutPixel(x, y + 5, 255, gb, gb);
-		gfx.PutPixel(x, y + 4, 255, gb, gb);
-		gfx.PutPixel(x, y + 3, 255, gb, gb);
-
-		gfx.PutPixel(x, y - 5, 255, gb, gb);
-		gfx.PutPixel(x, y - 4, 255, gb, gb);
-		gfx.PutPixel(x, y - 3, 255, gb, gb);
-
-		gfx.PutPixel(x + 5, y, 255, gb, gb);
-		gfx.PutPixel(x + 4, y, 255, gb, gb);
-		gfx.PutPixel(x + 3, y, 255, gb, gb);
-
-		gfx.PutPixel(x - 5, y, 255, gb, gb);
-		gfx.PutPixel(x - 4, y, 255, gb, gb);
-		gfx.PutPixel(x - 3, y, 255, gb, gb);
+		r_mobile = 0;
+		g_mobile = 255;
 	}
+
+	// mobile box
+	gfx.PutPixel(x_mobile - 5, y_mobile - 5, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile - 5, y_mobile - 4, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile - 5, y_mobile - 3, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile - 4, y_mobile - 5, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile - 3, y_mobile - 5, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile + 5, y_mobile - 5, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile + 5, y_mobile - 4, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile + 5, y_mobile - 3, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile + 4, y_mobile - 5, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile + 3, y_mobile - 5, r_mobile, g_mobile, b_mobile);	
+	gfx.PutPixel(x_mobile - 5, y_mobile + 5, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile - 5, y_mobile + 4, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile - 5, y_mobile + 3, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile - 4, y_mobile + 5, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile - 3, y_mobile + 5, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile + 5, y_mobile + 5, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile + 5, y_mobile + 4, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile + 5, y_mobile + 3, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile + 4, y_mobile + 5, r_mobile, g_mobile, b_mobile);
+	gfx.PutPixel(x_mobile + 3, y_mobile + 5, r_mobile, g_mobile, b_mobile);
 }
