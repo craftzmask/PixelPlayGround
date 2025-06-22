@@ -58,6 +58,9 @@ void Game::UpdateModel()
 		x_mobile = x_mobile + 3;
 	}
 
+	x_mobile = ClampScreenX(x_mobile, 5);
+	y_mobile = ClampScreenY(y_mobile, 5);
+
 	colliding = OverlapTest(x_fixed, y_fixed, x_mobile, y_mobile);
 }
 
@@ -102,6 +105,44 @@ bool Game::OverlapTest(int box0x, int box0y, int box1x, int box1y)
 		right1 >= left0 &&
 		top1 <= bottom0 &&
 		bottom1 >= top0;
+}
+
+int Game::ClampScreenX(int x, int width)
+{
+	const int left = x - width;
+	const int right = x + width;
+
+	if (right >= gfx.ScreenWidth)
+	{
+		return gfx.ScreenWidth - width - 1;
+	}
+	else if (left < 0)
+	{
+		return width;
+	}
+	else
+	{
+		return x;
+	}
+}
+
+int Game::ClampScreenY(int y, int height)
+{
+	const int top = y - height;
+	const int bottom = y + height;
+
+	if (bottom >= gfx.ScreenHeight)
+	{
+		return gfx.ScreenHeight - height - 1;
+	}
+	else if (top < 0)
+	{
+		return height;
+	}
+	else
+	{
+		return y;
+	}
 }
 
 void Game::ComposeFrame()
