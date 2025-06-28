@@ -51,5 +51,8 @@ private:
 	int x_fixed = 300;
 	int y_fixed = 200;
 	bool colliding = false;
+
+	int x = 400;
+	int y = 300;
 	/********************************/
 };

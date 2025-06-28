@@ -147,23 +147,11 @@ int Game::ClampScreenY(int y, int height)
 
 void Game::ComposeFrame()
 {
-	// static box
-	DrawBox(x_fixed, y_fixed, 0, 255, 0);
-
-	int r_mobile, g_mobile, b_mobile;
-	if (colliding)
+	for (int i = x; i < x + 100; i++)
 	{
-		r_mobile = 255;
-		g_mobile = 0;
-		b_mobile = 0;
+		for (int j = y; j < y + 100; j++)
+		{
+			gfx.PutPixel(i, j, 255, 255, 255);
+		}
 	}
-	else
-	{
-		r_mobile = 255;
-		g_mobile = 255;
-		b_mobile = 255;
-	}
-
-	// mobile box
-	DrawBox(x_mobile, y_mobile, r_mobile, g_mobile, b_mobile);
 }
