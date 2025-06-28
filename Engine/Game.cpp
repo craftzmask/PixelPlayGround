@@ -164,11 +164,5 @@ int Game::ClampScreenY(int y, int height)
 
 void Game::ComposeFrame()
 {
-	for (int i = x; i < x + width; i++)
-	{
-		for (int j = y; j < y + height; j++)
-		{
-			gfx.PutPixel(i, j, 255, 255, 255);
-		}
-	}
+	gfx.DrawRect(x, y, x + width, y + height, { 255, 255, 255 });
 }
