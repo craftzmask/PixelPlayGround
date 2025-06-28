@@ -164,5 +164,5 @@ int Game::ClampScreenY(int y, int height)
 
 void Game::ComposeFrame()
 {
-	gfx.DrawRect(x, y, x + width, y + height, { 255, 255, 255 });
+	gfx.DrawRectDim(x, y, width, height, { 255, 255, 255 });
 }
