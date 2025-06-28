@@ -38,30 +38,47 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	// Control movement
 	if (wnd.kbd.KeyIsPressed(VK_UP))
 	{
-		y_mobile = y_mobile - 3;
+		y = y - 2;
 	}
 	
 	if (wnd.kbd.KeyIsPressed(VK_DOWN))
 	{
-		y_mobile = y_mobile + 3;
+		y = y + 2;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_LEFT))
 	{
-		x_mobile = x_mobile - 3;
+		x = x - 2;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
 	{
-		x_mobile = x_mobile + 3;
+		x = x + 2;
 	}
 
-	x_mobile = ClampScreenX(x_mobile, 5);
-	y_mobile = ClampScreenY(y_mobile, 5);
+	// Control Resize
+	if (wnd.kbd.KeyIsPressed('W'))
+	{
+		height = height - 1;
+	}
 
-	colliding = OverlapTest(x_fixed, y_fixed, x_mobile, y_mobile);
+	if (wnd.kbd.KeyIsPressed('S'))
+	{
+		height = height + 1;
+	}
+
+	if (wnd.kbd.KeyIsPressed('A'))
+	{
+		width = width - 1;
+	}
+
+	if (wnd.kbd.KeyIsPressed('D'))
+	{
+		width = width + 1;
+	}
 }
 
 void Game::DrawBox(int x, int y, int r, int g, int b)
@@ -147,9 +164,9 @@ int Game::ClampScreenY(int y, int height)
 
 void Game::ComposeFrame()
 {
-	for (int i = x; i < x + 100; i++)
+	for (int i = x; i < x + width; i++)
 	{
-		for (int j = y; j < y + 100; j++)
+		for (int j = y; j < y + height; j++)
 		{
 			gfx.PutPixel(i, j, 255, 255, 255);
 		}
